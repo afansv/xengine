@@ -49,6 +49,12 @@ func Bind(i interface{}, r *http.Request) error {
 		return err
 	}
 
+	if r.MultipartForm != nil {
+		if err := decoder.Decode(i, r.MultipartForm.Value); err != nil {
+			return err
+		}
+	}
+
 	if err := decoder.Decode(i, r.URL.Query()); err != nil {
 		return err
 	}
